@@ -125,7 +125,11 @@ transition:.3s;
 button:hover{
 transform:scale(1.03);
 }
-
+button:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+  transform:none;
+}
 .progress{
 margin-top:20px;
 height:20px;
@@ -227,6 +231,69 @@ Con cariño ❤️ Ana y Matías
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby2w4bzdg6R9QJINsv-pQjz-2Qd0oRqhUkTtnX7zML9KPkG_kJ4oYXhJ_GpWGY523B77A/exec";
 
 async function uploadFiles(){
+
+const files = document.getElementById("files").files;
+const button = document.querySelector("button");
+const success = document.querySelector(".success");
+const error = document.querySelector(".error");
+const progress = document.querySelector(".progress");
+const progressBar = document.querySelector(".progress-bar");
+
+if(files.length === 0){
+alert("Selecciona al menos un archivo");
+return;
+}
+
+button.disabled = true;
+button.textContent = "Subiendo recuerdos...";
+success.style.display = "none";
+error.style.display = "none";
+progress.style.display = "block";
+progressBar.style.width = "0%";
+
+let count = 0;
+
+try{
+
+for(const file of files){
+
+const base64 = await toBase64(file);
+
+await fetch(SCRIPT_URL,{
+method:"POST",
+body:JSON.stringify({
+file: base64.split(",")[1],
+fileName:file.name,
+mimeType:file.type
+})
+});
+
+count++;
+
+const percent = (count/files.length)*100;
+
+progressBar.style.width = percent + "%";
+}
+
+success.innerHTML = 
+"✅ Gracias por compartir tus recuerdos.<br>Hemos recibido " + files.length + " archivo" + (files.length > 1 ? "s." : ".");
+
+success.style.display = "block";
+
+button.textContent = "Recuerdos enviados";
+button.disabled = true;
+
+} catch(err){
+
+error.style.display = "block";
+error.innerHTML = "❌ Hubo un problema al subir los archivos. Intenta nuevamente.";
+
+button.disabled = false;
+button.textContent = "Subir fotos y videos";
+
+}
+
+}
 
 const files = document.getElementById("files").files;
 
