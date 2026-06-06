@@ -160,6 +160,23 @@ color:red;
 font-weight:bold;
 }
 
+.preview-gallery img,
+.preview-gallery video,
+.preview-gallery .video-thumb{
+  width:100%;
+  height:100px;
+  object-fit:cover;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  background:#8b6b4f;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:8px;
+}
+  
 .footer{
 margin-top:30px;
 font-size:14px;
@@ -171,6 +188,23 @@ color:#999;
   font-size:14px;
   color:#8b7b72;
   line-height:1.6;
+}
+
+  .preview-gallery{
+  margin-top:25px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(90px, 1fr));
+  gap:12px;
+}
+
+.preview-gallery img,
+.preview-gallery video{
+  width:100%;
+  height:100px;
+  object-fit:cover;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  background:#f3e5d0;
 }
   
   @media (max-width: 600px){
@@ -294,11 +328,13 @@ Subir fotos y videos
 <div class="success">
 ✅ Archivos enviados correctamente
 </div>
-
+ 
 <div class="error">
 ❌ Error al subir archivos
 </div>
 
+<div id="previewGallery" class="preview-gallery"></div>
+  
 </div>
 
 <div class="footer">
@@ -319,6 +355,8 @@ async function uploadFiles(){
   const error = document.querySelector(".error");
   const progress = document.querySelector(".progress");
   const progressBar = document.querySelector(".progress-bar");
+  const previewGallery = document.getElementById("previewGallery");
+previewGallery.innerHTML = "";
 
   if(files.length === 0){
     alert("Selecciona al menos un archivo");
@@ -339,6 +377,8 @@ async function uploadFiles(){
     for(const file of files){
 
       const base64 = await toBase64(file);
+
+    addPreview(file, base64);
 
       await fetch(SCRIPT_URL,{
         method:"POST",
@@ -387,7 +427,31 @@ function toBase64(file){
 
   });
 }
-  
+
+function addPreview(file, base64){
+
+  const gallery = document.getElementById("previewGallery");
+
+  if(file.type.startsWith("image/")){
+
+    const img = document.createElement("img");
+    img.src = base64;
+    img.alt = file.name;
+
+    gallery.appendChild(img);
+
+  } else if(file.type.startsWith("video/")){
+
+    const videoBox = document.createElement("div");
+    videoBox.className = "video-thumb";
+    videoBox.textContent = "🎥 Video";
+
+    gallery.appendChild(videoBox);
+
+  }
+
+}
+
 function showFileName(){
   const files = document.getElementById("files").files;
   const fileName = document.getElementById("fileName");
