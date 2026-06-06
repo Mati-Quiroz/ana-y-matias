@@ -18,7 +18,16 @@ box-sizing:border-box;
 
 body{
 font-family:'Montserrat',sans-serif;
-background: linear-gradient(135deg,#f8f1e7,#f3e5d0);
+background:
+linear-gradient(
+rgba(248,241,231,.92),
+rgba(243,229,208,.92)
+),
+url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc');
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
 min-height:100vh;
 display:flex;
 justify-content:center;
@@ -51,7 +60,14 @@ color:#c9a86a;
 margin-bottom:25px;
 font-weight:bold;
 }
-
+  
+.subtitulo{
+  color:#8b7b72;
+  font-style:italic;
+  font-size:1.1rem;
+  margin-bottom:30px;
+}
+  
 p{
 font-size:1.1rem;
 line-height:1.7;
@@ -152,13 +168,18 @@ color:#999;
 <body>
 
 <div class="card">
-
+<div class="hero-image">
+  ❤️
+</div>
 <h1>Ana & Matías</h1>
 
 <div class="fecha">
 05 • Septiembre • 2026
 </div>
-
+<div class="subtitulo">
+Cada fotografía cuenta una historia.
+Ayúdanos a conservar este día para siempre.
+</div>
 <p>
 Gracias por acompañarnos en uno de los días más importantes de nuestras vidas.
 Si tomaste fotografías o videos durante nuestra celebración,
