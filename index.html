@@ -68,9 +68,31 @@ margin-bottom:25px;
 }
 
 input[type=file]{
-margin-top:15px;
-margin-bottom:20px;
-width:100%;
+  display:none;
+}
+
+.file-label{
+  display:inline-block;
+  background:#d98b8b;
+  color:white;
+  padding:14px 28px;
+  border-radius:40px;
+  font-weight:500;
+  cursor:pointer;
+  margin:20px 0;
+  transition:.3s;
+}
+
+.file-label:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+
+.file-name{
+  display:block;
+  color:#8b7b72;
+  font-size:14px;
+  margin-bottom:20px;
 }
 
 button{
@@ -149,7 +171,9 @@ nos encantaría que los compartieras con nosotros.
 
 <br>
 
-<input id="files" type="file" multiple>
+<label for="files" class="file-label">📁 Elegir archivos</label>
+<input id="files" type="file" multiple onchange="showFileName()">
+<span id="fileName" class="file-name">Ningún archivo seleccionado</span>
 
 <br>
 
@@ -232,7 +256,18 @@ reader.onerror = reject;
 
 });
 }
+function showFileName(){
+  const files = document.getElementById("files").files;
+  const fileName = document.getElementById("fileName");
 
+  if(files.length === 0){
+    fileName.textContent = "Ningún archivo seleccionado";
+  } else if(files.length === 1){
+    fileName.textContent = files[0].name;
+  } else {
+    fileName.textContent = files.length + " archivos seleccionados";
+  }
+}
 </script>
 
 </body>
