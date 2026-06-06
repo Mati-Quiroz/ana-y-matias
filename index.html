@@ -354,7 +354,6 @@ async function uploadFiles(){
   const progress = document.querySelector(".progress");
   const progressBar = document.querySelector(".progress-bar");
   const previewGallery = document.getElementById("previewGallery");
-previewGallery.innerHTML = "";
 
   if(files.length === 0){
     alert("Selecciona al menos un archivo");
@@ -394,13 +393,15 @@ previewGallery.innerHTML = "";
       progressBar.style.width = percent + "%";
     }
 
-    success.innerHTML =
-    "✅ Gracias por compartir tus recuerdos.<br>Hemos recibido " + files.length + " archivo" + (files.length > 1 ? "s." : ".");
+   success.innerHTML =
+"✅ Tus recuerdos fueron enviados correctamente. ¡Muchas gracias!";
 
     success.style.display = "block";
-    button.textContent = "Recuerdos enviados";
-    button.disabled = true;
+   button.textContent = "Subir fotos y videos";
+button.disabled = false;
 
+document.getElementById("files").value = "";
+document.getElementById("fileName").textContent = "Ningún archivo seleccionado";
   } catch(err){
 
     error.style.display = "block";
