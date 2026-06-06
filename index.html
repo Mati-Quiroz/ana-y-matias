@@ -397,6 +397,7 @@ async function uploadFiles(){
 "✅ Tus recuerdos fueron enviados correctamente. ¡Muchas gracias!";
 
     success.style.display = "block";
+    progress.style.display = "none";
    button.textContent = "Subir fotos y videos";
 button.disabled = false;
 
@@ -441,14 +442,15 @@ function addPreview(file, base64){
 
   } else if(file.type.startsWith("video/")){
 
-    const videoBox = document.createElement("div");
-    videoBox.className = "video-thumb";
-    videoBox.textContent = "🎥 Video";
+    const video = document.createElement("video");
+    video.src = base64;
+    video.muted = true;
+    video.playsInline = true;
+    video.controls = true;
+    video.preload = "metadata";
 
-    gallery.appendChild(videoBox);
-
+    gallery.appendChild(video);
   }
-
 }
 
 function showFileName(){
